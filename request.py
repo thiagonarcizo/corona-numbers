@@ -1,5 +1,6 @@
 import requests
 import json
+import pandas as pd
 
 #Feito por Thiago Narcizo
 
@@ -79,9 +80,24 @@ f6.write(b2)
 f6.close()
 
 ###############REPORT - PRINTS###############
-print('Fonte: https://covid19-brazil-api.now.sh' + '\n\n')
+'''print('Fonte: https://covid19-brazil-api.now.sh' + '\n\n')
 print('Casos totais de covid-19 no Brasil: ' + str(soma()) + '\n')
 print('Mortes totais de covid-19 no Brasil: ' + str(soma_mortes()) + '\n')
 print('Casos de covid-19 no DF: ' + str(b) + '\n')
 print('Mortes de covid-19 no DF: ' + str(b2))
+input()'''
+
+###############TENTANDO USAR COM O PANDAS###############
+data = {'Casos totais': [soma(), b],
+        'Óbitos': [soma_mortes(), b2]}
+
+df = pd.DataFrame (data, columns = ['Casos totais', 'Óbitos'], index=['Brasil', 'Brasília/DF'])
+
+df['Casos totais'] = df['Casos totais'].astype(int).apply(lambda x: "{:,}".format(x))
+df['Óbitos'] = df['Óbitos'].astype(int).apply(lambda x: "{:,}".format(x))
+
+print('Casos de covid-19:\n')
+
+print(df)
+
 input()
